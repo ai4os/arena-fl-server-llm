@@ -37,9 +37,6 @@ Note that removing `root-certificates` and setting `insecure = true` disables ce
 
 ```
 cd arena-fl-server-llm
-```
-
-```
 ./start_superlink.sh
 ```
 
@@ -63,7 +60,7 @@ pip install -e .
 3. Each client must have its own local dataset (never centrally shared). Then run the SuperNode start script with the server route, the path to the local dataset, and the local port the SuperNode will expose. Example:
 
 ```
-./start_supernode.sh fedserver-88face77-8b34-11f1-908b-771de29c9404.psnc-deployments.cloud.ai4eosc.eu data/eosc_sample.csv 9094
+./start_supernode.sh fedserver-88face77-8b34-11f1-908b-771de29c9404.psnc-deployments.cloud.ai4eosc.eu <DATA_PATH> 9094
 ```
 
 - The last argument `9094` is the local port used by the SuperNode and can be changed if needed (make sure it does not conflict with other services on the same machine).
@@ -86,7 +83,7 @@ flwr run list
 If you want to check the logs of an specific run: 
 
 ```
-flwr log <run_ID>
+flwr log <RUN_ID>
 ```
 
 ## Recommendations
