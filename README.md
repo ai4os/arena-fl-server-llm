@@ -60,7 +60,7 @@ pip install -e .
 3. Each client must have its own local dataset (never centrally shared). Then run the SuperNode start script with the server route, the path to the local dataset, and the local port the SuperNode will expose. Example:
 
 ```
-./start_supernode.sh fedserver-88face77-8b34-11f1-908b-771de29c9404.psnc-deployments.cloud.ai4eosc.eu <DATA_PATH> 9094
+./start_supernode.sh fedserver-<DEPLOYMENT_UUID>.<DATA_CENTER>-deployments.cloud.ai4eosc.eu <DATA_PATH> 9094
 ```
 
 - The last argument `9094` is the local port used by the SuperNode and can be changed if needed (make sure it does not conflict with other services on the same machine).
