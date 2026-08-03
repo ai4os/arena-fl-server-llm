@@ -27,28 +27,23 @@ dependencies = [
 packages = ["arena_fedllm"]
 
 [tool.flwr.app]
-publisher = "your-name"
+publisher = "arena"
 
 [tool.flwr.app.components]
 serverapp = "arena_fedllm.server_app:app"
 clientapp = "arena_fedllm.client_app:app"
 
-# ----------------------------------------------------------------------------
-# All values below are read at runtime via `context.run_config` in
-# client_app.py / server_app.py. Edit these to tune the run without touching
-# any Python code.
-# ----------------------------------------------------------------------------
 [tool.flwr.app.config]
 num-server-rounds = 3
 
-# NOTE: there is no central `dataset.name` here. In this deployment (Option
-# B) each client machine points at its OWN local CSV file when it's
-# launched — see scripts/start_supernode.sh — never at a shared/central
-# path. That keeps each site's data on that site's machine only.
+# NOTE: there is no central `dataset.name` here. In this deployment 
+# each client machine points at its OWN local CSV file when it's
+# launched never at a shared/central path. 
+# That keeps each site's data on that site's machine only.
 
 # Base model pulled from the Hugging Face Hub. Mistral-7B-Instruct-v0.3 is a
 # gated repo: accept the license on its model page and set the HF_TOKEN
-# environment variable before running (see README).
+# environment variable before running.
 model.name = "mistralai/Mistral-7B-Instruct-v0.3"
 model.quantization = 4
 model.gradient-checkpointing = true
@@ -74,26 +69,3 @@ train.training-arguments.report-to = "none"
 
 strategy.fraction-train = 0.2
 strategy.fraction-evaluate = 0.0
-
-[tool.flwr.federations]
-default = "remote"
-
-# Real deployment: server (SuperLink) on one host, clients (SuperNodes) on
-# separate machines, each with their own private local dataset (Option B),
-# secured with TLS. Replace SUPERLINK_HOST with the IP/hostname of the
-# machine running `flower-superlink`. Port 9093 is the SuperLink's Exec API
-# (used by `flwr run`), not the port SuperNodes connect to (see DEPLOYMENT.md).
-# Run ./scripts/generate_certs.sh once on the server first, and copy
-# deploy/certificates/ca.crt to this machine at the same relative path.
-[tool.flwr.federations.remote]
-address = "SUPERLINK_HOST:9093"
-insecure = false
-root-certificates = "deploy/certificates/ca.crt"
-
-# Quick single-machine smoke test only (127.0.0.1, no TLS). SuperLink and
-# every SuperNode run as separate local processes on this same box, each
-# still pointed at its own CSV via --node-config. See TESTING.md.
-# NOT for real deployments — use `remote` above for that.
-[tool.flwr.federations.local-test]
-address = "127.0.0.1:9093"
-insecure = true

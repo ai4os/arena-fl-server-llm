@@ -1,34 +1,32 @@
 #!/usr/bin/env bash
-# Start the SERVER (SuperLink) on this machine, with TLS enabled.
+# Start the SERVER (SuperLink) on this machine, for deployments where
+# Traefik terminates TLS at the edge with a public certificate (the
+# "Federated LLM Server" template on this platform routes fedserver-<uuid>:443
+# to this container's port 5000.
 #
-# Requires that generate_certs.sh has already been run once on
-# this machine.
+# No certificates are generated or managed here -- Traefik already
+# presents a publicly-trusted certificate to clients. The SuperLink itself
+# runs without TLS, since traffic between Traefik and this container stays
+# inside the platform's internal network.
 #
 # Usage:
-#   ./start_superlink.sh
+#   ./start_superlink_traefik.sh
 set -euo pipefail
 
-CERT_DIR="./deploy/certificates"
+# Fleet API: SuperNodes connect here (via Traefik, on :443 externally).
+# This MUST be port 5000 to match this deployment's
+# fedserver-<uuid>:443 -> :5000 route.
+FLEET_ADDRESS="${FLEET_ADDRESS:-0.0.0.0:5000}"
 
-# Default ports:
-#   9092 -> Fleet API   (SuperNodes connect here)
-#   9093 -> Exec API    (`flwr run` connects here)
-FLEET_ADDRESS="${FLEET_ADDRESS:-0.0.0.0:9092}"
-EXEC_ADDRESS="${EXEC_ADDRESS:-0.0.0.0:9093}"
+# Exec/Control API: only `flwr run` running inside this same container
+# needs to reach this. Loopback only, never exposed externally.
+EXEC_ADDRESS="${EXEC_ADDRESS:-127.0.0.1:9093}"
 
-if [[ ! -f "$CERT_DIR/ca.crt" || ! -f "$CERT_DIR/server.pem" || ! -f "$CERT_DIR/server.key" ]]; then
-  echo "Missing certificates in $CERT_DIR."
-  echo "Generate the certificates first with: ./scripts/generate_certs.sh <hostname-or-IP>"
-  exit 1
-fi
-
-echo "Starting SuperLink with TLS enabled."
-echo "Fleet API (clients):  $FLEET_ADDRESS"
-echo "Exec API  (flwr run): $EXEC_ADDRESS"
+echo "Starting SuperLink WITHOUT TLS (Traefik terminates TLS at the edge)."
+echo "Fleet API (behind Traefik, reachable via fedserver-<uuid>:443): $FLEET_ADDRESS"
+echo "Exec API  (local only, for flwr run):                           $EXEC_ADDRESS"
 
 exec flower-superlink \
+  --insecure \
   --fleet-api-address "$FLEET_ADDRESS" \
-  --exec-api-address "$EXEC_ADDRESS" \
-  --ssl-ca-certfile "$CERT_DIR/ca.crt" \
-  --ssl-certfile "$CERT_DIR/server.pem" \
-  --ssl-keyfile "$CERT_DIR/server.key"
+  --exec-api-address "$EXEC_ADDRESS"
