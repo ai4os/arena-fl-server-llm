@@ -44,7 +44,7 @@ virtualenv .venv -p python3
 source .venv/bin/activate
 ```
 
-2. Install dependencies using the same `pyptoject.toml` file as in the server side:
+2. Install dependencies using the same `pyptroject.toml` file as in the server side:
 
 ```
 pip install -e .
