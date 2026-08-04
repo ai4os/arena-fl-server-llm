@@ -79,12 +79,6 @@ If you want to check the logs of an specific run:
 flwr log <RUN_ID>
 ```
 
-## Recommendations
-- Run `flwr config list` to locate the config file before editing.
-- If the config file does not exist, run `flwr config init` (or run a `flwr` command) to create it, then perform the `sed` edits and start the SuperLink.
-- Restart the SuperLink after modifying the config to ensure changes take effect.
-- Keep each client's dataset private and isolated on the client node.
-
 ### Warning
 This project is under active development. 
 
