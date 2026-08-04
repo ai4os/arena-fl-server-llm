@@ -57,6 +57,8 @@ pip install -e .
 ```
 
 - The last argument <PORT> is the local port used by the SuperNode and can be changed if needed (make sure it does not conflict with other services on the same machine).
+- Client code/structure example: [ai4os/arena-fl-client-llm](https://github.com/ai4os/arena-fl-client-llm).
+
 
 ## Starting a remote run and checking status
 
