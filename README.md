@@ -8,30 +8,23 @@ This repository contains a Flower-based Federated LLM server deployment intended
 
 ## Step-by step workflow:
 
-1. Ensure the Flower CLI config file exists and points the `exec` API address to the SuperLink exec API. By default the file is: `$HOME/.flwr/config.toml` (in the server container this is usually `/root/.flwr/config.toml`).
-
-2. Verify the config path with:
+1. Ensure the Flower CLI config file exists and points the `exec` API address to the SuperLink exec API. Verify the config path with:
 
 ```
 flwr config list
 ```
 
-This prints the active Flower config file path (look for the line labeled `Flower Config file`). If the file does not exist you can initialize it with:
+This prints the active Flower config file path (look for the line labeled `Flower Config file`).
+
+2. The file `deploy/flwr_config.toml` is used for Flower CLI connections. If the `exec` API address or TLS settings need to change, edit `deploy/flwr_config.toml`, not `~/.flwr/config.toml` directly.
+
+3. Copy `deploy/flwr_config.toml` to `$HOME/.flwr/config.toml`, by default `/root/.flwr/config.toml` in the server container:
 
 ```
-flwr config init
+./install_flwr_config.sh
 ```
 
-3. Update the config so that the `exec` API address matches the SuperLink `--exec-api-address` (the default used by `start_superlink.sh` is `127.0.0.1:9093`). Example `sed` commands used to update the config file:
-
-```
-sed -i \
-  -e 's|address = "SUPERLINK_HOST:9093"|address = "127.0.0.1:9093"|' \
-  -e '/root-certificates = "\/srv\/arena-fl-server-llm\/deploy\/certificates\/ca.crt"/d' \
-  -e 's|insecure = false|insecure = true|' \
-  $(flwr config list | grep "Flower Config file" | awk '{print $NF}')
-```
-Note that removing `root-certificates` and setting `insecure = true` disables certificate verification for the CLI (this is often necessary inside deployments where Traefik handles TLS). Use with caution.
+Note that must be done only in the first run or if you need to re-start the app. 
 
 4. Start the SuperLink on the server side (this script expects Traefik routing to terminate TLS):
 
@@ -60,10 +53,10 @@ pip install -e .
 3. Each client must have its own local dataset (never centrally shared). Then run the SuperNode start script with the server route, the path to the local dataset, and the local port the SuperNode will expose. Example:
 
 ```
-./start_supernode.sh fedserver-<DEPLOYMENT_UUID>.<DATA_CENTER>-deployments.cloud.ai4eosc.eu <DATA_PATH> 9094
+./start_supernode.sh fedserver-<DEPLOYMENT_UUID>.<DATA_CENTER>-deployments.cloud.ai4eosc.eu <DATA_PATH> <PORT>
 ```
 
-- The last argument `9094` is the local port used by the SuperNode and can be changed if needed (make sure it does not conflict with other services on the same machine).
+- The last argument <PORT> is the local port used by the SuperNode and can be changed if needed (make sure it does not conflict with other services on the same machine).
 
 ## Starting a remote run and checking status
 
@@ -77,7 +70,7 @@ flwr run . remote
 Then, you can check the runs:
 
 ```
-flwr run list
+flwr ls remote
 ```
 
 If you want to check the logs of an specific run: 
