@@ -1,0 +1,12 @@
+[superlink]
+default = "remote"
+[superlink.supergrid]
+address = "supergrid.flower.ai"
+[superlink.local]
+address = ":local:"
+[superlink.remote]
+address = "127.0.0.1:9093"
+insecure = true
+[superlink.local-test]
+address = "127.0.0.1:9093"
+insecure = true

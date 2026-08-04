@@ -10,7 +10,7 @@ from flwr.serverapp.strategy import FedAvg
 from omegaconf import DictConfig
 from peft import get_peft_model_state_dict, set_peft_model_state_dict
 
-from arena_fedllm.dataset import replace_keys
+from arena_fedllm.utils import replace_keys
 from arena_fedllm.models import get_model
 
 # Create ServerApp

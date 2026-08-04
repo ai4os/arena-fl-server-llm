@@ -1,4 +1,4 @@
-"""arena-fl-server-llm: A FlowerTune app for real distributed federated LLM fine-tuning."""
+"""arena-fl-server-llm: A FlowerTune server for real distributed federated LLM fine-tuning."""
 
 import logging
 import os
