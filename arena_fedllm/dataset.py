@@ -8,8 +8,13 @@ import os
 
 from datasets import load_dataset
 from transformers import AutoTokenizer
-from trl import DataCollatorForCompletionOnlyLM
-
+try:
+    from trl.trainer.sft_trainer import DataCollatorForCompletionOnlyLM
+except ImportError:
+    try:
+        from trl.trainer import DataCollatorForCompletionOnlyLM
+    except ImportError:
+        from trl import DataCollatorForCompletionOnlyLM
 
 def formatting_prompts_func(example):
     """Construct prompts from instruction/input/response columns."""
