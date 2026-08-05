@@ -21,6 +21,7 @@ This prints the active Flower config file path (look for the line labeled `Flowe
 3. Copy `deploy/flwr_config.toml` to `$HOME/.flwr/config.toml`, by default `/root/.flwr/config.toml` in the server container:
 
 ```
+chmod +x ./install_flwr_config.sh
 ./install_flwr_config.sh
 ```
 
