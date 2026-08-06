@@ -8,6 +8,7 @@ import os
 
 from datasets import load_dataset
 from transformers import AutoTokenizer
+
 try:
     from trl.trainer.sft_trainer import DataCollatorForCompletionOnlyLM
 except ImportError:
@@ -15,6 +16,7 @@ except ImportError:
         from trl.trainer import DataCollatorForCompletionOnlyLM
     except ImportError:
         from trl import DataCollatorForCompletionOnlyLM
+
 
 def formatting_prompts_func(example):
     """Construct prompts from instruction/input/response columns."""
@@ -47,12 +49,14 @@ def get_tokenizer_and_data_collator_and_propt_formatting(model_name: str):
         model_name, use_fast=True, padding_side="right", token=hf_token
     )
     tokenizer.pad_token = tokenizer.eos_token
-    response_template_with_context = "\n### Response:"  # alpaca response tag
+    response_template_with_context = "\n### Response:"
     response_template_ids = tokenizer.encode(
         response_template_with_context, add_special_tokens=False
     )[2:]
+    
     data_collator = DataCollatorForCompletionOnlyLM(
-        response_template_ids, tokenizer=tokenizer
+        response_template=response_template_ids,
+        tokenizer=tokenizer
     )
 
     return tokenizer, data_collator, formatting_prompts_func

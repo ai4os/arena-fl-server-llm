@@ -12,8 +12,7 @@ from flwr.clientapp import ClientApp
 from flwr.common.config import unflatten_dict
 from omegaconf import DictConfig
 from peft import get_peft_model_state_dict, set_peft_model_state_dict
-from transformers import TrainingArguments
-from trl import SFTTrainer
+from trl import SFTConfig, SFTTrainer
 
 from arena_fedllm.dataset import (
     get_tokenizer_and_data_collator_and_propt_formatting,
@@ -21,6 +20,7 @@ from arena_fedllm.dataset import (
 )
 from arena_fedllm.models import cosine_annealing, get_model
 from arena_fedllm.utils import replace_keys
+from transformers import TrainingArguments
 
 # Avoid warnings
 os.environ["TOKENIZERS_PARALLELISM"] = "true"
@@ -40,8 +40,10 @@ def train(msg: Message, context: Context):
     cfg = DictConfig(replace_keys(unflatten_dict(context.run_config)))
     training_arguments = TrainingArguments(**cfg.train.training_arguments)
 
-    # Each machine holds its own private data. 
-    # No data is ever centralized or shared with other clients or this server.
+    # Each machine holds its own private data. Start this SuperNode with:
+    #    flower-supernode --node-config="dataset-path='/path/on/this/machine.csv'"
+    # No data is ever centralized or shared with other clients or the
+    # server -- only the trained weights are.
     local_dataset_path = context.node_config.get("dataset-path")
     if not local_dataset_path:
         raise ValueError(
@@ -71,7 +73,6 @@ def train(msg: Message, context: Context):
     )
 
     training_arguments.learning_rate = new_lr
-    training_arguments.output_dir = msg.content["config"]["save_path"]
 
     # Construct trainer
     trainer = SFTTrainer(

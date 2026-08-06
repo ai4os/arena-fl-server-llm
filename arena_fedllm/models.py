@@ -75,6 +75,7 @@ def get_model(model_cfg: DictConfig):
 
     model = AutoModelForCausalLM.from_pretrained(
         model_cfg.name,
+        trust_remote_code=True,
         quantization_config=quantization_config,
         torch_dtype=torch.bfloat16,
         token=hf_token,
