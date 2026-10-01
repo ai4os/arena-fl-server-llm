@@ -38,10 +38,10 @@ If you changed the config file after starting the SuperLink, stop and restart th
 
 ## Client-side (SuperNode) workflow:
 
-1. On each client machine create and activate a Python virtual environment:
+1. On each client machine create and activate a Python virtual environment (we recommend using Python 3.12):
 
 ```
-virtualenv .venv -p python3
+python3.12 -m venv .venv
 source .venv/bin/activate
 ```
 
@@ -81,6 +81,18 @@ If you want to check the logs of an specific run:
 ```
 flwr log <RUN_ID>
 ```
+
+
+## Environment variables that can be customized in the dashboard:
+
+| Variable | Default | 
+| --- | --- | 
+| `NUM_ROUNDS` | `10` |
+| `MODEL_NAME` | `Qwen/Qwen2.5-0.5B` |
+| `MODEL_QUANTIZATION` | `4` | 
+| `NUM_EPOCHS` | `3` | 
+| `FRACTION_TRAIN` | `0.2` | 
+| `FRACTION_EVALUATE` | `0.0` |
 
 ### Warning
 This project is under active development. 
