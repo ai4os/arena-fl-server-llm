@@ -1,6 +1,6 @@
 # EOSC ARENA Flower LLM Server
 
-This repository contains a Flower-based Federated LLM server deployment intended to run on EOSC ARENA / AI4EOSC platform. Clients (SuperNodes) run on separate nodes and connect to the SuperLink (server) deployed on the platform.
+This repository contains a Flower-based Federated LLM server deployment intended to run on EOSC ARENA. Clients (SuperNodes) run on separate nodes and connect to the SuperLink (server) deployed on the platform.
 
 ## Overview
 - **Server (SuperLink):** runs the Flower SuperLink process that accepts connections from SuperNodes. The provided script to start it is `start_superlink.sh`.
