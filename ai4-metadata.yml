@@ -1,0 +1,42 @@
+metadata_version: 1.0.0
+title: ARENA FlowerTune LLM server
+summary: Run a federated learning server for fine-tuning large language models with Flower.
+description: |-
+  Federated learning server for fine-tuning large language models using Flower.
+  This server (SuperLink) runs the Flower SuperLink process that accepts connections from clients (SuperNodes).
+  After the SuperLink is running on the server side and the clients (SuperNodes) have connected, the federated run
+  can start from the server container using the Flower CLI.
+
+  The following environment variables can be configured from the dashboard:
+
+  | Variable | Default |
+  | --- | --- |
+  | `NUM_ROUNDS` | `10` |
+  | `MODEL_NAME` | `Qwen/Qwen2.5-0.5B` |
+  | `MODEL_QUANTIZATION` | `4` |
+  | `NUM_EPOCHS` | `3` |
+  | `FRACTION_TRAIN` | `0.2` |
+  | `FRACTION_EVALUATE` | `0.0` |
+
+dates:
+  created: '2026-07-24'
+  updated: '2026-10-06'
+links:
+  source_code: https://github.com/ai4os/arena-simulation-fedllm
+  docker_image: ai4oshub/arena-simulation-fedllm
+  ai4_template: ai4-template/1.9.9
+tags:
+  - federated learning
+  - large language models
+  - fine-tuning
+  - LoRA
+  - flower
+  - simulation
+tasks:
+  - Other
+categories:
+  - AI4 tools
+libraries:
+  - PyTorch
+data-type:
+  - Other
