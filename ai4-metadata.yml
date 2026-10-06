@@ -1,5 +1,5 @@
 metadata_version: 1.0.0
-title: ARENA FlowerTune LLM server
+title: ARENA Federated LLM Fine-Tuning Server
 summary: Run a federated learning server for fine-tuning large language models with Flower.
 description: |-
   Federated learning server for fine-tuning large language models using Flower.
@@ -7,16 +7,32 @@ description: |-
   After the SuperLink is running on the server side and the clients (SuperNodes) have connected, the federated run
   can start from the server container using the Flower CLI.
 
+  ## Why federated AI?
+
+  **AI (and GenAI) needs data, but (scientific) data cannot always move.**
+
+  - Scientific data is often distributed across institutions and infrastructures.
+  - It can be private, sensitive, or restricted by institutional policies that prevent centralization.
+  - Federated learning unlocks the potential of this data for fine-tuning models **without sharing it**.
+
+  ![Federated learning overview](assets/fl_arena.png)
+
+  ## The EOSC ARENA approach
+
+  This service from EOSC ARENA takes care of the server side so that users can focus on their research. 
+  In this line, a coordinator user can launch the server using the interactive form from this tools, and the collaborators can connect their own clients **from outside ARENA**, exploiting disitributed resources. Clients can also connect from dedicated deployments within the platform. Then, the server can start the federated run with the connected clientes, and the fine-tuned adapters from each rounds can be downloaded for further use.
+  
   The following environment variables can be configured from the dashboard:
 
-  | Variable | Default |
-  | --- | --- |
-  | `NUM_ROUNDS` | `10` |
-  | `MODEL_NAME` | `Qwen/Qwen2.5-0.5B` |
-  | `MODEL_QUANTIZATION` | `4` |
-  | `NUM_EPOCHS` | `3` |
-  | `FRACTION_TRAIN` | `0.2` |
-  | `FRACTION_EVALUATE` | `0.0` |
+  | Variable | Default | Description |
+  |---|---|---|
+  | `NUM_ROUNDS` | `10` | Number of federated training rounds |
+  | `MODEL_NAME` | `Qwen/Qwen2.5-0.5B` | Base model to fine-tune |
+  | `MODEL_QUANTIZATION` | `4` | Quantization bits used to load the model |
+  | `NUM_EPOCHS` | `3` | Local epochs each client trains per round |
+  | `FRACTION_TRAIN` | `0.2` | Fraction of clients sampled for training each round |
+  | `FRACTION_EVALUATE` | `0.0` | Fraction of clients sampled for evaluation each round |
+  | `NUM_ROUNDS` | `10` | Number of federated training rounds |
 
 dates:
   created: '2026-07-24'
