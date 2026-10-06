@@ -32,7 +32,7 @@ description: |-
   | `NUM_EPOCHS` | `3` | Local epochs each client trains per round |
   | `FRACTION_TRAIN` | `0.2` | Fraction of clients sampled for training each round |
   | `FRACTION_EVALUATE` | `0.0` | Fraction of clients sampled for evaluation each round |
-  | `NUM_ROUNDS` | `10` | Number of federated training rounds |
+
 
 dates:
   created: '2026-07-24'
