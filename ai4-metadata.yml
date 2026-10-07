@@ -15,7 +15,7 @@ description: |-
   - It can be private, sensitive, or restricted by institutional policies that prevent centralization.
   - Federated learning unlocks the potential of this data for fine-tuning models **without sharing it**.
 
-  ![Federated learning overview](assets/fl_arena.png)
+  ![Federated learning overview](https://raw.githubusercontent.com/ai4os/arena-fl-server-llm/main/assets/fl_arena.png)
 
   ## The EOSC ARENA approach
 
@@ -27,7 +27,7 @@ description: |-
   | Variable | Default | Description |
   |---|---|---|
   | `NUM_ROUNDS` | `10` | Number of federated training rounds |
-  | `MODEL_NAME` | `Qwen/Qwen2.5-0.5B` | Base model to fine-tune |
+  | `MODEL_NAME` | `Qwen/Qwen2.5-0.5B`&nbsp;&nbsp;&nbsp; | Base model to fine-tune |
   | `MODEL_QUANTIZATION` | `4` | Quantization bits used to load the model |
   | `NUM_EPOCHS` | `3` | Local epochs each client trains per round |
   | `FRACTION_TRAIN` | `0.2` | Fraction of clients sampled for training each round |
