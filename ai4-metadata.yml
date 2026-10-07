@@ -39,7 +39,7 @@ dates:
   updated: '2026-10-06'
 links:
   source_code: https://github.com/ai4os/arena-simulation-fedllm
-  docker_image: ai4oshub/arena-simulation-fedllm
+  docker_image: sainzpardo/arena-simulation-fedllm
   ai4_template: ai4-template/1.9.9
 tags:
   - federated learning
